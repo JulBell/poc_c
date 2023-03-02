@@ -29,7 +29,7 @@ defmodule PacC.Votes.Vote do
     Repo.all(
       from(
         v in Vote,
-        order_by: [asc: v.inserted_at],
+        order_by: [desc: v.inserted_at],
         limit: 5,
         preload: [:user]
       )

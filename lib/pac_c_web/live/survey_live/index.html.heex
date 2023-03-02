@@ -20,11 +20,15 @@
                 </button>
           </div>
         </div>
-        <div class="text-center mt-5 text-lg leading-8 text-gray-600">
-        <%= for vote <- @votes do %>
-            <p><%= vote.user.username %> has voted for <%= vote.value %></p>
+        <div id="votes" class="text-center mt-5 text-lg leading-8 text-gray-600">
+            <%= if Enum.count(@votes) == 0 do %>
+                <p class="text-sm text-gray-600 dark:text-gray-500"> No votes yet ... </p>
+            <% else %>
+                <%= for vote <- @votes do %>
+                    <p id={"vote-#{vote.id}"}><%= vote.user.username %> has voted for <%= vote.value %></p>
+                <% end %>
+            <% end %>
 
-        <% end %>
         </div>
 
       </div>
