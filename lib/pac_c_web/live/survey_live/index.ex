@@ -30,10 +30,7 @@ defmodule PacCWeb.SurveyLive.Index do
       case Vote.create_vote(%{"value" => value, "user_id" => current_user.id}) do
         {:ok, %Vote{}} ->
           PacCWeb.Endpoint.broadcast("survey", "update_logs", %{})
-          {:noreply,
-            socket
-            |> put_flash(:info, "We saved your vote")}
-
+          {:noreply, put_flash(socket, :info, "We saved your vote")}
         _ ->
           {:noreply, put_flash(socket, :error, "Ooops .. your vote wasn't save")}
       end
