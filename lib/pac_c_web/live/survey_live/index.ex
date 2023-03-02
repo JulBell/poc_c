@@ -4,15 +4,24 @@ defmodule PacCWeb.SurveyLive.Index do
   alias PacC.Votes.Vote
 
   def mount(_params, %{"_csrf_token" => token}, socket) do
+
+    if connected?(socket) do
+      PacCWeb.Endpoint.subscribe("survey")
+    end
+
     user = User.find_or_create_user(token)
     choco_votes_count = Vote.count_choco()
     pac_votes_count = Vote.count_pac()
     {:ok,
-      socket
-      |> assign(:user, User.to_map(user))
-      |> assign(:choco_votes_count, choco_votes_count)
-      |> assign(:pac_votes_count, pac_votes_count)
-      |> assign(:votes, Vote.recent_votes())}
+      assign(
+        socket,
+        topic: "survey",
+        user: User.to_map(user),
+        pac_votes_count: pac_votes_count,
+        choco_votes_count: choco_votes_count,
+        votes: Vote.recent_votes()
+      )
+    }
   end
 
   def handle_event("vote", %{"user" => value}, socket) do
@@ -20,6 +29,7 @@ defmodule PacCWeb.SurveyLive.Index do
     if current_user do
       case Vote.create_vote(%{"value" => value, "user_id" => current_user.id}) do
         {:ok, %Vote{}} ->
+          PacCWeb.Endpoint.broadcast("survey", "update_logs", %{})
           {:noreply,
             socket
             |> put_flash(:info, "We saved your vote")}
@@ -30,14 +40,13 @@ defmodule PacCWeb.SurveyLive.Index do
     end
   end
 
-
-  def handl_event("update_logs", _payload, socket) do
+  def handle_info(%{event: "update_logs", payload: payload}, socket) do
     {:noreply,
-    socket
-    |> assign(:choco_votes_count, Vote.count_choco())
-    |> assign(:pac_votes_count, Vote.count_pac())
-    |> assign(:votes, Vote.recent_votes())
-    |> put_flash(:info, "We saved your vote")}
+      socket
+      |> assign(:choco_votes_count, Vote.count_choco())
+      |> assign(:pac_votes_count, Vote.count_pac())
+      |> assign(:votes, Vote.recent_votes())
+    }
   end
 
   defp fetch_user(%{assigns: %{user: user}}), do: user
