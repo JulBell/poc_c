@@ -37,22 +37,16 @@ defmodule PacC.Votes.Vote do
   end
 
   def count_choco() do
-    Repo.one(
       from(
         v in Vote,
-        where: v.value == "chocolatine",
-        select: count("*")
-      )
-    )
+        where: v.value == "chocolatine")
+      |> Repo.aggregate(:count)
   end
 
   def count_pac() do
-    Repo.one(
       from(
         v in Vote,
-        where: v.value == "pain_au_chocolat",
-        select: count("*")
-      )
-    )
+        where: v.value == "pain_au_chocolat")
+      |> Repo.aggregate(:count)
   end
 end
