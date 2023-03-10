@@ -1,15 +1,15 @@
+<section class="flex flex-col w-screen h-screen justify-center items-center text-center px-10 md:px-0">
 <div class="isolate bg-white">
-
   <main>
-    <div class="relative px-6 lg:px-8">
       <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div class="hidden sm:mb-8 sm:flex sm:justify-center">
           <div class="relative rounded-full py-1 px-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
             Welcome <%= @user.username %>
           </div>
         </div>
+
         <div class="text-center">
-          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Data to proof that you are right</h1>
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">VOTE!</h1>
           <p class="mt-6 text-lg leading-8 text-gray-600">Either Pain au chocolat or Chocolatine, this survey is to proof the correct word.</p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
                  <button phx-click="vote" phx-value-user="pain_au_chocolat" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -22,7 +22,7 @@
         </div>
         <div id="votes" class="text-center mt-5 text-lg leading-8 text-gray-600">
             <%= if Enum.count(@votes) == 0 do %>
-                <p class="text-sm text-gray-600 dark:text-gray-500"> No votes yet ... </p>
+                <p class="text-sm text-gray-600 dark:text-gray-500"> No votes </p>
             <% else %>
                 <%= for vote <- @votes do %>
                     <p id={"vote-#{vote.id}"}><%= vote.user.username %> has voted for <%= vote.value %></p>
@@ -44,7 +44,7 @@
           </defs>
         </svg>
       </div>
-     </div>
 
   </main>
 </div>
+</section>
