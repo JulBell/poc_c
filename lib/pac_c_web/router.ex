@@ -17,7 +17,7 @@ defmodule PacCWeb.Router do
   scope "/", PacCWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", ResultLive.Index, :index
     live "/survey", SurveyLive.Index, :index
   end
 

@@ -1,0 +1,17 @@
+<div class="isolate bg-white">
+
+  <main>
+   <%= @winner %>
+  </main>
+</div>
+<section class="flex flex-col w-screen h-screen justify-center items-center text-center px-10 md:px-0">
+  <h1 class="text-6xl font-black text-gray-200">
+    <span
+      class="text-transparent bg-clip-text bg-gradient-to-br from-pink-600 to-red-200">IT'S <%= if @winner == "pac", do: "PAIN AU CHOCOLAT", else: "CHOCOLATINE"  %> TABARNAK</span>
+  </h1>
+</section>
+<%= if @winner == "pac" do %>
+<img src="https://www.museedeslettres.fr/wp-content/uploads/2017/01/pain-au-chocolat-1.jpg" />
+<% else %>
+<img src="https://www.francebleu.fr/s3/cruiser-production/2022/04/f033dd25-d55c-42a0-a26d-291ac68d1b58/1200x680_whatsapp_image_2022-04-26_at_12.31.11.jpg" />
+<% end %>
